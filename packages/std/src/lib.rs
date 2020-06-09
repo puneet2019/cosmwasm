@@ -20,7 +20,7 @@ pub use crate::errors::{
     unauthorized, underflow, StdError, StdResult, SystemError, SystemResult,
 };
 pub use crate::init_handle::{
-    log, BankMsg, CosmosMsg, HandleResponse, HandleResult, InitResponse, InitResult, LogAttribute,
+    log, BankMsg, MessageMsg, CosmosMsg, HandleResponse, HandleResult, InitResponse, InitResult, LogAttribute,
     MigrateResponse, MigrateResult, StakingMsg, WasmMsg,
 };
 #[cfg(feature = "iterator")]
