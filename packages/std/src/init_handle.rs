@@ -17,6 +17,7 @@ where
     T: Clone + fmt::Debug + PartialEq + JsonSchema,
 {
     Bank(BankMsg),
+    Message(MessageMsg),
     // by default we use RawMsg, but a contract can override that
     // to call into more app-specific code (whatever they define)
     Custom(T),
@@ -32,6 +33,16 @@ pub enum BankMsg {
         from_address: HumanAddr,
         to_address: HumanAddr,
         amount: Vec<Coin>,
+    },
+}
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
+#[serde(rename_all = "snake_case")]
+pub enum MessageMsg {
+    // this moves tokens in the underlying sdk
+    Send {
+        from_address: HumanAddr,
+        to_address: HumanAddr,
+        text: String,
     },
 }
 
@@ -87,6 +98,11 @@ pub enum WasmMsg {
 impl<T: Clone + fmt::Debug + PartialEq + JsonSchema> From<BankMsg> for CosmosMsg<T> {
     fn from(msg: BankMsg) -> Self {
         CosmosMsg::Bank(msg)
+    }
+}
+impl<T: Clone + fmt::Debug + PartialEq + JsonSchema> From<MessageMsg> for CosmosMsg<T> {
+    fn from(msg: MessageMsg) -> Self {
+        CosmosMsg::Message(msg)
     }
 }
 
